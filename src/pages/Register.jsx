@@ -35,22 +35,22 @@ const Register = () => {
                     <fieldset className="fieldset space-y-5">
                         <div>
                             <label className="label">Name</label>
-                            <input name='name' required type="text" className="input" value="" placeholder="Name" />
+                            <input name='name' required type="text" className="input" placeholder="Name" />
                         </div>
 
                         <div>
                             <label className="label">Photo URL</label>
-                            <input name='photoUrl' required type="text" className="input" value="" placeholder="Photo Url" />
+                            <input name='photoUrl' required type="text" className="input" placeholder="Photo Url" />
                         </div>
 
                         <div>
                             <label className="label">Email</label>
-                            <input name='email' required type="email" className="input" value="" placeholder="Email" />
+                            <input name='email' required type="email" className="input" placeholder="Email" />
                         </div>
 
                         <div>
                             <label className="label">Password</label>
-                            <input name='password' required type="password" className="input" value="" placeholder="Password" />
+                            <input name='password' required type="password" className="input" placeholder="Password" />
                         </div>
 
                         <button type='submit' className="btn btn-neutral mt-4">Register</button>
