@@ -1,9 +1,15 @@
-import React, { use } from 'react';
-import { Link } from 'react-router';
+import React, { use, useState } from 'react';
+import { Link, useNavigate } from 'react-router';
 import { AuthContext } from '../provider/AuthProvider';
 
 const Register = () => {
-    const { createUser, setUser } = use(AuthContext);
+    const { createUser, setUser, updateUser } = use(AuthContext);
+    const [nameError, setNameError] = useState('');
+    const [urlError, setUrlError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
+    const navigate = useNavigate();
 
     const handleRegister = e => {
         e.preventDefault();
@@ -12,16 +18,51 @@ const Register = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
 
-        createUser(email, password).then(result=> {
+
+
+
+        if (name.length < 5) {
+            setNameError('Name should be more than 5 character...');
+            return;
+        }
+        else {
+            setNameError('');
+        }
+
+
+
+
+
+        createUser(email, password).then(result => {
             const user = result.user;
-            //console.log(user);
-            setUser(user);
+            updateUser(
+                {
+                    displayName: name,
+                    photoUrl: photoUrl,
+                    email: email,
+                }
+            )
+                .then(() => {
+                    setUser({
+                        ...user,
+                        displayName: name,
+                        photoUrl: photoUrl,
+                        email: email
+                    });
+
+                    navigate("/");
+                })
+                .catch((error) => {
+                    alert(error.message);
+                    setUser(user);
+                });
+
         })
-        .catch(error=> {
-            const errorCode = error.code;
-            const errorMsg = error.message;
-            alert(errorMsg);
-        });
+            .catch(error => {
+                const errorCode = error.code;
+                const errorMsg = error.message;
+                alert(errorMsg);
+            });
     }
 
 
@@ -36,6 +77,7 @@ const Register = () => {
                         <div>
                             <label className="label">Name</label>
                             <input name='name' required type="text" className="input" placeholder="Name" />
+                            {nameError && <p className='text-xs text-error'>{nameError}</p>}
                         </div>
 
                         <div>

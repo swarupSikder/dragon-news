@@ -1,10 +1,12 @@
-import React, { use } from 'react';
-import { Link, useNavigate } from 'react-router';
+import React, { use, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../provider/AuthProvider';
 
 const Login = () => {
-    const {logIn, setUser} = use(AuthContext);
+    const { logIn, setUser } = use(AuthContext);
     const navigate = useNavigate();
+    const location = useLocation();
+    const [error, setError] = useState('');
 
     const handleLogin = e => {
         e.preventDefault();
@@ -12,12 +14,12 @@ const Login = () => {
         const password = e.target.password.value;
 
         logIn(email, password)
-            .then((result)=>{
+            .then((result) => {
                 setUser(result.user);
-                navigate('/');
+                navigate(`${location.state ? location.state : "/"}`);
             })
-            .catch((error)=>{
-                alert(error.code, error.message);
+            .catch((error) => {
+                setError(error.code);
             });
     }
 
@@ -35,18 +37,20 @@ const Login = () => {
 
                         <div>
                             <label className="label">Email</label>
-                            <input name='email' type="email" className="input" placeholder="Email" />
+                            <input name='email' type="email" required className="input" placeholder="Email" />
                         </div>
 
                         <div>
                             <label className="label">Password</label>
-                            <input name='password' type="password" className="input" placeholder="Password" />
+                            <input name='password' type="password" required className="input" placeholder="Password" />
                         </div>
 
 
                         <div><a className="link link-hover">Forgot password?</a></div>
 
-
+                        <p className='font-semibold text-red-500'>
+                            {error}
+                        </p>
 
                         <button type='submit' className="btn btn-neutral mt-4">Login</button>
 
