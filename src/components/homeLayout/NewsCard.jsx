@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaRegBookmark, FaRegStar, FaStar } from 'react-icons/fa';
 import { AiOutlineEye } from 'react-icons/ai';
+import { Link } from 'react-router';
 
 const NewsCard = ({ news }) => {
     const {
@@ -10,7 +11,7 @@ const NewsCard = ({ news }) => {
         details,
         total_view,
         rating,
-        tags,
+        id,
     } = news;
 
     const formattedDate = new Date(news.author.published_date).toLocaleDateString(undefined, {
@@ -53,7 +54,7 @@ const NewsCard = ({ news }) => {
             {/* Details */}
             <p className="text-sm text-gray-700 mb-2">
                 {details.slice(0, 200)}...
-                <span className="text-orange-500 font-medium cursor-pointer"> Read More</span>
+                <Link to={`/news-details/${id}`} className="text-orange-500 font-medium cursor-pointer"> Read More</Link>
             </p>
 
             {/* Footer: Rating and Views */}
